@@ -1,43 +1,31 @@
-const express = require('express');
-let books = require("./booksdb.js");
-let isValid = require("./auth_users.js").isValid;
-let users = require("./auth_users.js").users;
-const public_users = express.Router();
+const axios = require("axios");
+const express = require("express");
+const router = express.Router();
 
+const BASE_URL = "http://localhost:5000/books";
 
-public_users.post("/register", (req,res) => {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+// Get all books
+router.get("/", async (req, res) => {
+    const data = await axios.get(BASE_URL);
+    res.json(data.data);
 });
 
-// Get the book list available in the shop
-public_users.get('/',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+// Get by ISBN
+router.get("/isbn/:isbn", async (req, res) => {
+    const data = await axios.get(`${BASE_URL}/isbn/${req.params.isbn}`);
+    res.json(data.data);
 });
 
-// Get book details based on ISBN
-public_users.get('/isbn/:isbn',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
- });
-  
-// Get book details based on author
-public_users.get('/author/:author',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+// Get by Author
+router.get("/author/:author", async (req, res) => {
+    const data = await axios.get(`${BASE_URL}/author/${req.params.author}`);
+    res.json(data.data);
 });
 
-// Get all books based on title
-public_users.get('/title/:title',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+// Get by Title
+router.get("/title/:title", async (req, res) => {
+    const data = await axios.get(`${BASE_URL}/title/${req.params.title}`);
+    res.json(data.data);
 });
 
-//  Get book review
-public_users.get('/review/:isbn',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
-});
-
-module.exports.general = public_users;
+module.exports = router;
